@@ -35,14 +35,14 @@ let map = L.map('mapid', {
 L.control.layers(baseMaps).addTo(map);
 
 // Accessing the airport GeoJSON URL
-let airportData = "https://raw.githubusercontent.com/Jacobsilvester22/Mapping_Earthquakes/main/Mapping_GeoJSON_Points/majorAirports.json";
+// let airportData = "https://raw.githubusercontent.com/Jacobsilvester22/Mapping_Earthquakes/main/Mapping_GeoJSON_Points/majorAirports.json";
 
-// Grabbing our GeoJSON data.
-d3.json(airportData).then(function(data) {
-   console.log(data);
-// Creating a GeoJSON layer with the retrieved data.
- L.geoJSON(data).addTo(map);
- });
+// // Grabbing our GeoJSON data.
+// d3.json(airportData).then(function(data) {
+//    console.log(data);
+// // Creating a GeoJSON layer with the retrieved data.
+//  L.geoJSON(data).addTo(map);
+//  });
 
 // Then we add our 'graymap' tile layer to the map.
 streets.addTo(map);
@@ -54,5 +54,13 @@ let torontoData = "https://raw.githubusercontent.com/Jacobsilvester22/Mapping_Ea
 d3.json(torontoData).then(function(data) {
   console.log(data);
 // Creating a GeoJSON layer with the retrieved data.
-L.geoJSON(data).addTo(map);
+L.geoJSON(data, {
+  color: "#ffffa1",
+  weight: 2,
+  onEachFeature: function(feature, layer) {
+    layer.bindPopup("<h3> Airline: " + feature.properties.airline + "</h3> <hr><h3> Destination: "
+    + feature.properties.dst + "</h3>");
+  }
+})
+.addTo(map);
 });
